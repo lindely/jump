@@ -69,7 +69,24 @@ export default class KeyBinds {
     parse_navigation() {
         // The T key is bound to opening and closing the tags list.
         if (this.keys.get("t")) {
-            document.getElementById("tags").classList.toggle("enable");
+            const tagsEl = document.getElementById("tags");
+            tagsEl.classList.toggle("enable");
+
+            // Mark the active tag so the user is aware where navigation begins.
+            if (tagsEl.classList.contains("enable") && tagsEl.querySelector('a.active') === null) {
+                // Try and read the tag from the URL. If that fails, select the first one.
+                const tag = document.location.pathname.split('/').filter(x => !!x).pop();
+
+                if (tag) {
+                    tagsEl.querySelectorAll("a").forEach(a => {
+                        if (a.textContent === tag) {
+                            a.classList.add("active");
+                        }
+                    });
+                } else {
+                    tagsEl.querySelector("a").classList.add("active");
+                }
+            }
             return;
         }
 
