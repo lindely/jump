@@ -1,5 +1,5 @@
 /**
- * Add key binds to JUMP, allowing the user to navigate
+ * Add key binds to Jump, allowing the user to navigate
  * through tags and sites using their keyboards. When the
  * user presses "T", the tag dropdown is opened and the
  * arrow keys can be used to cycle through the tags. When
@@ -28,7 +28,7 @@ export default class KeyBinds {
 
         document.addEventListener("keyup", (e) => {
             this.keys.set(e.key, false);
-        })
+        });
     }
 
     /**
@@ -77,9 +77,9 @@ export default class KeyBinds {
         if (this.keys.get("ArrowUp") || this.keys.get("ArrowDown") || this.keys.get("ArrowLeft") || this.keys.get("ArrowRight")) {
             // Determine whether tags or sites should be cycled through.
             if (document.getElementById("tags").classList.contains("enable")) {
-                this.navigate_elements('#tags', this.keys.get("ArrowDown") || this.keys.get("ArrowRight"));
+                this.navigate_elements("#tags", this.keys.get("ArrowDown") || this.keys.get("ArrowRight"));
             } else {
-                this.navigate_elements('ul.sites', this.keys.get("ArrowDown") || this.keys.get("ArrowRight"));
+                this.navigate_elements("ul.sites", this.keys.get("ArrowDown") || this.keys.get("ArrowRight"));
             }
             return;
         }
@@ -96,8 +96,8 @@ export default class KeyBinds {
         }
 
         // The ESCAPE key will deselect any active tag or site and close the tags list.
-        if (this.keys.get('Escape')) {
-            document.querySelectorAll('a.active').forEach(a => a.classList.remove('active'));
+        if (this.keys.get("Escape")) {
+            document.querySelectorAll("a.active").forEach(a => a.classList.remove("active"));
             document.getElementById("tags").classList.remove("enable");
         }
     }
@@ -116,7 +116,7 @@ export default class KeyBinds {
 
         // Function that returns the default element that should be activated if none is found by
         // other means.
-        const getDefault = () => document.querySelector(`${containerSelector} li:${forward ? 'first' : 'last'}-of-type a`);
+        const getDefault = () => document.querySelector(`${containerSelector} li:${forward ? "first" : "last"}-of-type a`);
 
         if (activeEl) {
             activeEl.classList.toggle("active");
