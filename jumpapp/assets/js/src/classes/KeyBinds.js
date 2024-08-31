@@ -88,16 +88,17 @@ export default class KeyBinds {
         if (this.keys.get("Enter")) {
             // Determine whether tags or sites should be triggered.
             if (document.getElementById("tags").classList.contains("enable")) {
-                document.querySelector("#tags a.active").click();
+                document.querySelector("#tags a.active")?.click();
             } else {
-                document.querySelector("ul.sites a.active").click();
+                document.querySelector("ul.sites a.active")?.click();
             }
             return;
         }
-    
-        // The ESCAPE key will deselect any active tag or site.
+
+        // The ESCAPE key will deselect any active tag or site and close the tags list.
         if (this.keys.get('Escape')) {
             document.querySelectorAll('a.active').forEach(a => a.classList.remove('active'));
+            document.getElementById("tags").classList.remove("enable");
         }
     }
 
@@ -113,11 +114,15 @@ export default class KeyBinds {
         // the first or last, based on the value of "forward", will be selected.
         const activeEl = document.querySelector(`${containerSelector} a.active`);
 
+        // Function that returns the default element that should be activated if none is found by
+        // other means.
+        const getDefault = () => document.querySelector(`${containerSelector} li:${forward ? 'first' : 'last'}-of-type a`);
+
         if (activeEl) {
             activeEl.classList.toggle("active");
-            newEl = (forward ? activeEl.parentElement.nextElementSibling : activeEl.parentElement.previousElementSibling)?.querySelector("a");
+            newEl = (forward ? activeEl.parentElement.nextElementSibling : activeEl.parentElement.previousElementSibling)?.querySelector("a") || getDefault();
         } else {
-            newEl = document.querySelector(`${containerSelector} li:${forward ? 'first' : 'last'}-of-type a`);
+            newEl = getDefault();
         }
 
         newEl?.classList.toggle("active");
